@@ -14,22 +14,21 @@ namespace My_App1._2._0
 {
     public partial class FileSearch : Form
     {
+        int c = 1;
+        List<string> totalfiles = new List<string>();
         public FileSearch()
         {
             InitializeComponent();
+           
         }
-        private void Browse_button_Click(object sender, EventArgs e)
+        string type1;
+        public async Task GetFile()
         {
-            FolderBrowserDialog f = new FolderBrowserDialog();
-            f.ShowDialog();
-            Search_txtbox.Text = f.SelectedPath;
-        }
-        string[] totalfiles = new string[] { };
-        private void Search_Button_Click(object sender, EventArgs e)
-        {
+            totalfiles.Clear();
             int count = 0;
             string filename = FileName_textBox.Text;
             string type = "." + File_Type_comboBox.Text;
+            type1=File_Type_comboBox.Text;
             TotalFiles_textBox.Clear();
             string[] rootpath = new string[] { Search_txtbox.Text + "\\" };
             foreach (string path in rootpath)
@@ -37,31 +36,31 @@ namespace My_App1._2._0
                 if (File.Exists(path))
                 {
                     // This path is a file
-                    ProcessFile(path);
+                   await ProcessFile(path);
                 }
                 else if (Directory.Exists(path))
                 {
                     // This path is a directory
-                    ProcessDirectory(path);
+                    await ProcessDirectory (path);
                 }
             }
             FileCount.Text = "Total File Count is " + count;
 
-            void ProcessDirectory(string rootfolder)
+           async Task ProcessDirectory(string rootfolder)
             {
                 //Getting Files from subdirectories
                 string[] Folders = Directory.GetFiles(rootfolder);
                 foreach (string fileName in Folders)
-                    ProcessFile(fileName);
+                   await ProcessFile(fileName);
 
                 // Recurse into subdirectories of this directory.
                 string[] SubFolders = Directory.GetDirectories(rootfolder);
                 foreach (string subdirectory in SubFolders)
-                    ProcessDirectory(subdirectory);
+                    await ProcessDirectory(subdirectory);
 
             }
             //Processing the file found in directory
-            void ProcessFile(string rootfolder)
+             async Task ProcessFile(string rootfolder)
             {
                 string file = null;
                 file = Path.GetFileName(rootfolder);
@@ -71,13 +70,40 @@ namespace My_App1._2._0
                     if (Path.GetExtension(rootfolder) == type)
                     {
                         count += 1;
-                        totalfiles.Append(file);
+                        totalfiles.Add(count + " " + file);
                         TotalFiles_textBox.Text += count + ". " + file + Environment.NewLine;
-                        
                     }
                 }
             }
-         
+            
+        }
+        string[] s=new string[] { };
+        private void Browse_button_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog f = new FolderBrowserDialog();
+            f.ShowDialog();
+            Search_txtbox.Text = f.SelectedPath;
+            string str = f.SelectedPath;
+            s = str.Split('\\');
+
+        }
+        string foldername;
+        private async void Search_Button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await GetFile();
+            }
+            catch(Exception error)
+            {
+                MessageBox.Show("Please Enter Data", "Error", MessageBoxButtons.OK);
+            }
+            foreach (string item in s)
+            {
+                foldername= item;
+            }
+            Form1.quantity +="Folder Name: "+ foldername.ToUpper()+ 
+            " & "+type1.ToUpper()+" Files Found: "+totalfiles.Count+"$";
         }
         private void export_button_Click(object sender, EventArgs e)
         {
@@ -87,18 +113,31 @@ namespace My_App1._2._0
                 if (File.Exists(path))
                 {
                     //writes to file
-                 File.WriteAllText(path, TotalFiles_textBox.Text);
+                    using (StreamWriter s = new StreamWriter(path))
+                    {
+                        foreach (string item in totalfiles)
+                        {
+                            s.WriteLine(item + "   Date:" + DateTime.Now);
+                        }
+                    }
                 }
                 else
                 {
                     // Create the file.
-                    using (FileStream fs = File.Create(path))
+                    FileStream fs = File.Create(path);
+                    using (StreamWriter s = new StreamWriter(path))
                     {
-                        File.WriteAllText(path, TotalFiles_textBox.Text);
+                        foreach (string item in totalfiles)
+                        {
+                            s.WriteLine(item + "   Date:" + DateTime.Now);
+                        }
                     }
                 }
+               
             }
-            catch  { }
+            catch { }
+            FilesImported.Text = "Files Exported to Log File";
+            totalfiles.Clear();     
         }
         private void TotalFiles_textBox_TextChanged(object sender, EventArgs e)
         {
@@ -142,6 +181,20 @@ namespace My_App1._2._0
         private void FilesImported_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void FileSearch_Load(object sender, EventArgs e)
+        {
+           
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

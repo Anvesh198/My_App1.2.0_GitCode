@@ -35,6 +35,10 @@ namespace My_App1._2._0
             this.label1 = new System.Windows.Forms.Label();
             this.Browse_button = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.FilesImported = new System.Windows.Forms.Label();
+            this.export_button = new System.Windows.Forms.Button();
+            this.FileCount = new System.Windows.Forms.Label();
             this.TotalFiles_textBox = new System.Windows.Forms.TextBox();
             this.FileName_label = new System.Windows.Forms.Label();
             this.FileName_textBox = new System.Windows.Forms.TextBox();
@@ -46,9 +50,7 @@ namespace My_App1._2._0
             this.thisAppProvidesFilesPresentInAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.version120ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileCount = new System.Windows.Forms.Label();
-            this.export_button = new System.Windows.Forms.Button();
-            this.FilesImported = new System.Windows.Forms.Label();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,6 +92,7 @@ namespace My_App1._2._0
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.FilesImported);
             this.groupBox1.Controls.Add(this.export_button);
             this.groupBox1.Controls.Add(this.FileCount);
@@ -97,15 +100,53 @@ namespace My_App1._2._0
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(2, 165);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(934, 388);
+            this.groupBox1.Size = new System.Drawing.Size(934, 435);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Files Found in Folder";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(10, 29);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(581, 26);
+            this.progressBar1.TabIndex = 13;
+            this.progressBar1.UseWaitCursor = true;
+            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+            // 
+            // FilesImported
+            // 
+            this.FilesImported.AutoSize = true;
+            this.FilesImported.Location = new System.Drawing.Point(622, 287);
+            this.FilesImported.Name = "FilesImported";
+            this.FilesImported.Size = new System.Drawing.Size(0, 23);
+            this.FilesImported.TabIndex = 13;
+            this.FilesImported.Click += new System.EventHandler(this.FilesImported_Click);
+            // 
+            // export_button
+            // 
+            this.export_button.ForeColor = System.Drawing.Color.OrangeRed;
+            this.export_button.Location = new System.Drawing.Point(626, 245);
+            this.export_button.Name = "export_button";
+            this.export_button.Size = new System.Drawing.Size(258, 42);
+            this.export_button.TabIndex = 6;
+            this.export_button.Text = "Export to log file";
+            this.export_button.UseVisualStyleBackColor = true;
+            this.export_button.Click += new System.EventHandler(this.export_button_Click);
+            // 
+            // FileCount
+            // 
+            this.FileCount.AutoSize = true;
+            this.FileCount.Location = new System.Drawing.Point(622, 56);
+            this.FileCount.Name = "FileCount";
+            this.FileCount.Size = new System.Drawing.Size(0, 23);
+            this.FileCount.TabIndex = 11;
+            this.FileCount.Click += new System.EventHandler(this.FileCount_Click);
+            // 
             // TotalFiles_textBox
             // 
             this.TotalFiles_textBox.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TotalFiles_textBox.Location = new System.Drawing.Point(14, 33);
+            this.TotalFiles_textBox.Location = new System.Drawing.Point(10, 72);
             this.TotalFiles_textBox.Multiline = true;
             this.TotalFiles_textBox.Name = "TotalFiles_textBox";
             this.TotalFiles_textBox.ReadOnly = true;
@@ -177,7 +218,7 @@ namespace My_App1._2._0
             this.versionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(958, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(951, 33);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -210,43 +251,20 @@ namespace My_App1._2._0
             // version120ToolStripMenuItem
             // 
             this.version120ToolStripMenuItem.Name = "version120ToolStripMenuItem";
-            this.version120ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.version120ToolStripMenuItem.Size = new System.Drawing.Size(215, 34);
             this.version120ToolStripMenuItem.Text = "Version 1.2.0";
             // 
-            // FileCount
+            // contextMenuStrip2
             // 
-            this.FileCount.AutoSize = true;
-            this.FileCount.Location = new System.Drawing.Point(622, 56);
-            this.FileCount.Name = "FileCount";
-            this.FileCount.Size = new System.Drawing.Size(0, 23);
-            this.FileCount.TabIndex = 11;
-            this.FileCount.Click += new System.EventHandler(this.FileCount_Click);
-            // 
-            // export_button
-            // 
-            this.export_button.ForeColor = System.Drawing.Color.DarkOrange;
-            this.export_button.Location = new System.Drawing.Point(626, 207);
-            this.export_button.Name = "export_button";
-            this.export_button.Size = new System.Drawing.Size(258, 42);
-            this.export_button.TabIndex = 6;
-            this.export_button.Text = "Export to log file";
-            this.export_button.UseVisualStyleBackColor = true;
-            this.export_button.Click += new System.EventHandler(this.export_button_Click);
-            // 
-            // FilesImported
-            // 
-            this.FilesImported.AutoSize = true;
-            this.FilesImported.Location = new System.Drawing.Point(622, 287);
-            this.FilesImported.Name = "FilesImported";
-            this.FilesImported.Size = new System.Drawing.Size(0, 23);
-            this.FilesImported.TabIndex = 13;
-            this.FilesImported.Click += new System.EventHandler(this.FilesImported_Click);
+            this.contextMenuStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
             // FileSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(958, 559);
+            this.ClientSize = new System.Drawing.Size(951, 603);
             this.Controls.Add(this.Search_Button);
             this.Controls.Add(this.File_Type_label);
             this.Controls.Add(this.File_Type_comboBox);
@@ -261,6 +279,7 @@ namespace My_App1._2._0
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FileSearch";
             this.Text = "FileSearch";
+            this.Load += new System.EventHandler(this.FileSearch_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -291,5 +310,7 @@ namespace My_App1._2._0
         private System.Windows.Forms.Label FileCount;
         private System.Windows.Forms.Button export_button;
         private System.Windows.Forms.Label FilesImported;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
